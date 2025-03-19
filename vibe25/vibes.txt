@@ -1,0 +1,12 @@
+make a browser based game in vibe25/  want to be able to host from github pages. the game should be broswer based and mobile friendly/optimized. lets make a puzzle game where  you flip tiles to make combos and that unlocks extra troops for a army rts
+
+change tile flips, should only give energy if a match, then tiles should clear out wilth animation. and new random ones slide in. so bit of a memory game. get points when get matches
+
+on mobile can see it all, need better mobile layout so never have to scroll and can see battle areas, move battle area to top
+
+tiles dont fit well, overflowwing, make fit in nice grid of 5x5
+
+add a svg of somthing collecting to the tiles, maybe emojis, some 1 cheap plan 3 maybe gold or coins
+
+backgroun of tiles make tan 
+

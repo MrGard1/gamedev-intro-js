@@ -5,8 +5,17 @@ class Game {
         this.tiles = [];
         this.availableTroops = [];
         this.battlefield = [];
-        this.gridSize = 4;
+        this.gridSize = 5;
         this.comboMultiplier = 1;
+        this.flippedTiles = [];
+        this.isProcessing = false;
+        
+        // Define tile values and their corresponding emojis
+        this.tileValues = [
+            { value: 1, emoji: '🌱', name: 'Seed' },
+            { value: 2, emoji: '🌿', name: 'Plant' },
+            { value: 3, emoji: '💰', name: 'Gold' }
+        ];
         
         this.init();
     }
@@ -26,7 +35,7 @@ class Game {
             const tile = document.createElement('div');
             tile.className = 'tile';
             tile.dataset.index = i;
-            tile.textContent = '?';
+            tile.innerHTML = '<span class="tile-emoji">❓</span>';
             tileGrid.appendChild(tile);
             this.tiles.push({
                 element: tile,
@@ -63,16 +72,14 @@ class Game {
     }
 
     setupEventListeners() {
-        // Tile click events
         document.getElementById('tile-grid').addEventListener('click', (e) => {
             const tile = e.target.closest('.tile');
-            if (tile) {
+            if (tile && !this.isProcessing) {
                 const index = parseInt(tile.dataset.index);
                 this.flipTile(index);
             }
         });
 
-        // Troop selection events
         document.getElementById('troop-list').addEventListener('click', (e) => {
             const card = e.target.closest('.troop-card');
             if (card) {
@@ -82,36 +89,83 @@ class Game {
         });
     }
 
-    flipTile(index) {
-        if (this.tiles[index].isFlipped) return;
+    getTileEmoji(value) {
+        return this.tileValues.find(tv => tv.value === value)?.emoji || '❓';
+    }
+
+    async flipTile(index) {
+        if (this.tiles[index].isFlipped || this.isProcessing) return;
         
         this.tiles[index].isFlipped = true;
         this.tiles[index].element.classList.add('flipped');
-        this.tiles[index].element.textContent = this.tiles[index].value;
-        
-        this.energy += this.tiles[index].value * this.comboMultiplier;
-        this.checkCombo();
+        this.tiles[index].element.querySelector('.tile-emoji').textContent = this.getTileEmoji(this.tiles[index].value);
+        this.flippedTiles.push(index);
+
+        if (this.flippedTiles.length === 3) {
+            this.isProcessing = true;
+            await this.checkMatch();
+            this.flippedTiles = [];
+            this.isProcessing = false;
+        }
+    }
+
+    async checkMatch() {
+        const values = this.flippedTiles.map(index => this.tiles[index].value);
+        const isMatch = values.every(value => value === values[0]);
+
+        if (isMatch) {
+            // Show match animation
+            this.flippedTiles.forEach(index => {
+                this.tiles[index].element.classList.add('matched');
+            });
+
+            // Award points
+            const matchValue = values[0];
+            const points = matchValue * 10 * this.comboMultiplier;
+            this.energy += points;
+            this.troops += Math.floor(points / 50); // Gain troops based on points
+
+            // Clear matched tiles after animation
+            await new Promise(resolve => setTimeout(resolve, 500));
+            await this.clearMatchedTiles();
+        } else {
+            // Flip tiles back after delay
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            this.flippedTiles.forEach(index => {
+                this.tiles[index].isFlipped = false;
+                this.tiles[index].element.classList.remove('flipped');
+                this.tiles[index].element.querySelector('.tile-emoji').textContent = '❓';
+            });
+        }
+
         this.updateUI();
     }
 
-    checkCombo() {
-        const flippedValues = this.tiles
-            .filter(tile => tile.isFlipped)
-            .map(tile => tile.value);
-        
-        // Check for three or more matching values
-        const valueCounts = {};
-        flippedValues.forEach(value => {
-            valueCounts[value] = (valueCounts[value] || 0) + 1;
+    async clearMatchedTiles() {
+        // Clear matched tiles with animation
+        this.flippedTiles.forEach(index => {
+            this.tiles[index].element.classList.add('clearing');
         });
 
-        for (const [value, count] of Object.entries(valueCounts)) {
-            if (count >= 3) {
-                this.comboMultiplier = count;
-                this.energy += value * count * 2; // Bonus energy for combos
-                this.troops += Math.floor(count / 3); // Gain troops for combos
-            }
-        }
+        await new Promise(resolve => setTimeout(resolve, 500));
+
+        // Replace cleared tiles with new ones
+        this.flippedTiles.forEach(index => {
+            this.tiles[index] = {
+                element: this.tiles[index].element,
+                isFlipped: false,
+                value: Math.floor(Math.random() * 3) + 1
+            };
+            this.tiles[index].element.querySelector('.tile-emoji').textContent = '❓';
+            this.tiles[index].element.classList.remove('flipped', 'matched', 'clearing');
+            this.tiles[index].element.classList.add('sliding-in');
+        });
+
+        // Remove sliding animation class after animation completes
+        await new Promise(resolve => setTimeout(resolve, 500));
+        this.flippedTiles.forEach(index => {
+            this.tiles[index].element.classList.remove('sliding-in');
+        });
     }
 
     selectTroop(troopId) {

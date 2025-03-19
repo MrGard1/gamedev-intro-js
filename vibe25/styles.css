@@ -9,89 +9,157 @@ body {
     background-color: #f0f0f0;
     color: #333;
     line-height: 1.6;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .game-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 1rem;
+    padding: 0.5rem;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .game-header {
     text-align: center;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
 }
 
 .resources {
     display: flex;
     justify-content: center;
     gap: 2rem;
-    margin-top: 0.5rem;
+    margin-top: 0.25rem;
     font-size: 1.2rem;
 }
 
 .game-board {
     background-color: #fff;
     border-radius: 8px;
-    padding: 1rem;
+    padding: 0.5rem;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .tile-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0.5rem;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.25rem;
     aspect-ratio: 1;
-    max-width: 500px;
+    max-width: 100%;
     margin: 0 auto;
+    position: relative;
+    flex: 1;
+    padding: 0.5rem;
 }
 
 .tile {
     aspect-ratio: 1;
     border-radius: 4px;
     cursor: pointer;
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: #D2B48C;
+    position: relative;
+    transform-style: preserve-3d;
+    overflow: hidden;
+}
+
+.tile-emoji {
     font-size: 1.5rem;
-    background-color: #e0e0e0;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
 }
 
 .tile.flipped {
     transform: rotateY(180deg);
-    background-color: #4CAF50;
+    background-color: #8B4513;
+}
+
+.tile.flipped .tile-emoji {
     color: white;
+}
+
+.tile.matched {
+    animation: matchPop 0.5s ease-out;
+}
+
+.tile.clearing {
+    animation: clearTile 0.5s ease-out forwards;
+}
+
+.tile.sliding-in {
+    animation: slideIn 0.5s ease-out;
+}
+
+@keyframes matchPop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+@keyframes clearTile {
+    0% { 
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% { 
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+@keyframes slideIn {
+    0% { 
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    100% { 
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 .game-controls {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1rem;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
 }
 
 .troop-selection, .rts-controls {
     background-color: #fff;
     border-radius: 8px;
-    padding: 1rem;
+    padding: 0.5rem;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .troop-list, .battlefield {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    gap: 0.5rem;
-    margin-top: 0.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 0.25rem;
+    margin-top: 0.25rem;
 }
 
 .troop-card {
     background-color: #f8f8f8;
     border: 1px solid #ddd;
     border-radius: 4px;
-    padding: 0.5rem;
+    padding: 0.25rem;
     text-align: center;
     cursor: pointer;
+    font-size: 0.9rem;
 }
 
 .troop-card:hover {
@@ -100,21 +168,46 @@ body {
 
 /* Mobile Responsive Design */
 @media (max-width: 768px) {
+    .game-container {
+        padding: 0.25rem;
+    }
+
     .game-controls {
         grid-template-columns: 1fr;
+        order: -1; /* Move controls to top */
     }
 
     .tile-grid {
-        grid-template-columns: repeat(3, 1fr);
+        gap: 0.15rem;
+        padding: 0.25rem;
+    }
+
+    .tile-emoji {
+        font-size: 1.2rem;
     }
 
     .resources {
-        flex-direction: column;
-        gap: 0.5rem;
+        flex-direction: row;
+        gap: 1rem;
+        font-size: 1rem;
     }
 
     .troop-list, .battlefield {
-        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+        gap: 0.25rem;
+    }
+
+    .troop-card {
+        font-size: 0.8rem;
+        padding: 0.2rem;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    h2 {
+        font-size: 1.2rem;
     }
 }
 
