@@ -1,0 +1,134 @@
+unvibes
+manual :/
+
+You can download the sound files manually from these URLs:
+Flip sound (subtle click): https://freesound.org/people/kwahmah_02/sounds/256116/
+Match sound: https://freesound.org/people/LittleRobotSoundFactory/sounds/270303/
+Seed sound (pop): https://freesound.org/people/InspectorJ/sounds/411639/
+Carrot sound (crunch): https://freesound.org/people/InspectorJ/sounds/412068/
+Bread sound (soft pop): https://freesound.org/people/LittleRobotSoundFactory/sounds/270316/
+Apple sound (crisp): https://freesound.org/people/LittleRobotSoundFactory/sounds/270337/
+Gold sound (coins): https://freesound.org/people/LittleRobotSoundFactory/sounds/270328/
+Troop sound (fanfare): https://freesound.org/people/LittleRobotSoundFactory/sounds/270404/
+After downloading, place them in the vibe25/sounds directory with these names:
+flip.mp3
+match.mp3
+seed.mp3
+carrot.mp3
+bread.mp3
+apple.mp3
+gold.mp3
+troop.mp3
+
+
+curl 'https://cdn.freesound.org/previews/256/256116_4486188-lq.mp3' \
+  -H 'sec-ch-ua-platform: "macOS"' \
+  -H 'Referer: https://freesound.org/people/kwahmah_02/sounds/256116/' \
+  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36' \
+  -H 'sec-ch-ua: "Not(A:Brand";v="99", "Google Chrome";v="133", "Chromium";v="133"' \
+  -H 'Range: bytes=0-' \
+  -H 'sec-ch-ua-mobile: ?0' --output ./flip.mp3
+
+
+  curl 'https://cdn.freesound.org/previews/270/270303_5123851-lq.mp3' \
+  -H 'Accept: */*' \
+  -H 'Accept-Language: en-US,en;q=0.9' \
+  -H 'Connection: keep-alive' \
+  -H 'Range: bytes=0-' \
+  -H 'Referer: https://freesound.org/people/LittleRobotSoundFactory/sounds/270303/' \
+  -H 'Sec-Fetch-Dest: audio' \
+  -H 'Sec-Fetch-Mode: no-cors' \
+  -H 'Sec-Fetch-Site: same-site' \
+  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36' \
+  -H 'sec-ch-ua: "Not(A:Brand";v="99", "Google Chrome";v="133", "Chromium";v="133"' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'sec-ch-ua-platform: "macOS"' --output ./match.mp3
+
+  curl 'https://cdn.freesound.org/previews/411/411639_5121236-lq.mp3' \
+  -H 'Accept: */*' \
+  -H 'Accept-Language: en-US,en;q=0.9' \
+  -H 'Connection: keep-alive' \
+  -H 'Range: bytes=0-' \
+  -H 'Referer: https://freesound.org/people/InspectorJ/sounds/411639/' \
+  -H 'Sec-Fetch-Dest: audio' \
+  -H 'Sec-Fetch-Mode: no-cors' \
+  -H 'Sec-Fetch-Site: same-site' \
+  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36' \
+  -H 'sec-ch-ua: "Not(A:Brand";v="99", "Google Chrome";v="133", "Chromium";v="133"' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'sec-ch-ua-platform: "macOS"' --output seed.mp3
+
+  curl 'https://cdn.freesound.org/previews/412/412068_5121236-lq.mp3' \
+  -H 'Accept: */*' \
+  -H 'Accept-Language: en-US,en;q=0.9' \
+  -H 'Connection: keep-alive' \
+  -H 'Range: bytes=0-' \
+  -H 'Referer: https://freesound.org/people/InspectorJ/sounds/412068/' \
+  -H 'Sec-Fetch-Dest: audio' \
+  -H 'Sec-Fetch-Mode: no-cors' \
+  -H 'Sec-Fetch-Site: same-site' \
+  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36' \
+  -H 'sec-ch-ua: "Not(A:Brand";v="99", "Google Chrome";v="133", "Chromium";v="133"' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'sec-ch-ua-platform: "macOS"' --output carrot.mp3
+
+  curl 'https://cdn.freesound.org/previews/270/270316_5123851-lq.mp3' \
+  -H 'Accept: */*' \
+  -H 'Accept-Language: en-US,en;q=0.9' \
+  -H 'Connection: keep-alive' \
+  -H 'Range: bytes=0-' \
+  -H 'Referer: https://freesound.org/people/LittleRobotSoundFactory/sounds/270316/' \
+  -H 'Sec-Fetch-Dest: audio' \
+  -H 'Sec-Fetch-Mode: no-cors' \
+  -H 'Sec-Fetch-Site: same-site' \
+  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36' \
+  -H 'sec-ch-ua: "Not(A:Brand";v="99", "Google Chrome";v="133", "Chromium";v="133"' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'sec-ch-ua-platform: "macOS"' --output bread.mp3
+
+
+  curl 'https://cdn.freesound.org/previews/270/270337_5123851-lq.mp3' \
+  -H 'Accept: */*' \
+  -H 'Accept-Language: en-US,en;q=0.9' \
+  -H 'Connection: keep-alive' \
+  -H 'Range: bytes=0-' \
+  -H 'Referer: https://freesound.org/people/LittleRobotSoundFactory/sounds/270337/' \
+  -H 'Sec-Fetch-Dest: audio' \
+  -H 'Sec-Fetch-Mode: no-cors' \
+  -H 'Sec-Fetch-Site: same-site' \
+  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36' \
+  -H 'sec-ch-ua: "Not(A:Brand";v="99", "Google Chrome";v="133", "Chromium";v="133"' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'sec-ch-ua-platform: "macOS"' --output apple.mp3
+
+  curl 'https://cdn.freesound.org/previews/564/564908_11947866-lq.mp3' \
+  -H 'Accept: */*' \
+  -H 'Accept-Language: en-US,en;q=0.9' \
+  -H 'Connection: keep-alive' \
+  -H 'Range: bytes=0-' \
+  -H 'Referer: https://freesound.org/search/?q=gold+coins&f=&s=Automatic+by+relevance&si_tags=0&si_name=0&si_description=0&si_packname=0&si_sound_id=0&si_username=0&d0=0&d1=*&ig=0&r=0&g=1&dp=0&cm=0&mm=0' \
+  -H 'Sec-Fetch-Dest: audio' \
+  -H 'Sec-Fetch-Mode: no-cors' \
+  -H 'Sec-Fetch-Site: same-site' \
+  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36' \
+  -H 'sec-ch-ua: "Not(A:Brand";v="99", "Google Chrome";v="133", "Chromium";v="133"' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'sec-ch-ua-platform: "macOS"' --output gold.mp3
+
+
+
+
+
+  curl 'https://cdn.freesound.org/previews/270/270404_5123851-lq.mp3' \
+  -H 'Accept: */*' \
+  -H 'Accept-Language: en-US,en;q=0.9' \
+  -H 'Connection: keep-alive' \
+  -H 'Range: bytes=0-' \
+  -H 'Referer: https://freesound.org/people/LittleRobotSoundFactory/sounds/270404/' \
+  -H 'Sec-Fetch-Dest: audio' \
+  -H 'Sec-Fetch-Mode: no-cors' \
+  -H 'Sec-Fetch-Site: same-site' \
+  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36' \
+  -H 'sec-ch-ua: "Not(A:Brand";v="99", "Google Chrome";v="133", "Chromium";v="133"' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'sec-ch-ua-platform: "macOS"' --output troop.mp3

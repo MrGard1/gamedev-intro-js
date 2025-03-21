@@ -10,3 +10,132 @@ add a svg of somthing collecting to the tiles, maybe emojis, some 1 cheap plan 3
 
 backgroun of tiles make tan 
 
+change the 2nd image to be food instead of a plant
+
+add in bread and carrots as well, they should have lower power than gold
+
+add cool effects, like whenever you match a card, a fun sound will play.
+
+download some cc0 sounds for fillers for now
+
+get a more subtle sound for normal clicks and use duiff sounds for diff type of combos
+
+now i dont here anything, want a little click oon each tap, something diff for creating each type of soldier, and an appropriate sound for each combo type (coins clinking be good for gold) 
+
+i still dont hear anything, check back to when sounds worked
+
+...bunch of fail downloading, unvibe manual dl...
+
+got sounds, there are 2 playing when get combo only want the per comb sound
+
+could you change the tile bg colors to be more screen safe colors , showing up wierd on some monitors
+
+ugly
+
+ugly, want to look good, and maybe some more gb, more like a game not a biz saas page
+
+lets get a sound and indicator when dont have enough money to buy something
+
+disable text selection on all the cards and buy buttons
+
+no fail sound
+
+i want sound its jsut not working
+
+just fail sound rest was fine
+
+denied not work 
+
+still no denied sound, prob dl blocked again
+
+...unvibe manualdir cleanup...
+
+oh was just in wrong path, i moved it and got rid of extra, but need a better fail sound that one too happy
+
+manual fine
+
+*that a lie, no vibe, manual dl try*
+
+https://cdn.pixabay.com/download/audio/2022/11/21/audio_136661e555.mp3?filename=error-126627.mp3
+
+*novibe manual...eh forget its whatever*
+
+wat, it is playing all the sounds first time click, stop that go back
+
+could you add some sort of fun background
+
+way too small and wasteful of space, keep 5x5 match grid as most of area so big buttons easy to click
+
+=====detour reverted =====
+
+add, some of the cards have your troopers hidden in them and if you match all three, you receive the trooper.
+
+add, some of the cards have your troopers hidden in them and if you match all three, you receive the trooper.
+
+seems totaly buseted game? answers are shown on backs of card so no mathcing and not working when get matchers
+
+shows flippend but still cant click the tiles, and power: undefined in purchase areas
+=======
+
+lets add new hidden type of trooper, but if you match 3 troppers you get a random soldier instead of power
+======
+
+lets add new hidden type of trooper, but if you match 3 troppers you get a random soldier instead of power
+=====
+
+lets add new type of match  that is a man, but if you match 3 you get a random troop  instead of power
+
+i cant find any men clicking tiles
+
+found one, but didnt get anything when matched 3
+
+=====
+gave a knight each time, is it a random troop?
+=====
+
+gave knight every time matched men, should be  random troop; also showing power underined in battelfield
+
+in battele field area dont show cost just emoji and name
+
+no line wrap in battel field cards
+
+start with 10 power
+
+combine your troops of same type in battle field, show count
+
+cattelfield getting chopped make wider
+
+now the avaliable troops area are overlapping
+
+change energe to be gold
+
+add a mini game, whenever you get more than 200 gold have a dragon attack, and you lose 100 gold, and a mini click out the fires game, if dont put out 10 fires fast enough than lose 10 gold for each one you miss
+
+show time countdown on the mini game, show damage report after time ends for 5 more seconds saying he stole 100 and lost another 10x home any firesnot put out in damages
+
+make the time 3 seconds less long, also when i click all the fires out it did 2 popups and subtracted double gold fix that
+
+make the fires each have a 50% change of moving to a random space eavery 2 seconds
+
+add a button by the title chich gives 20 gold every time clicked
+
+Uncaught TypeError: Cannot read properties of null (reading 'appendChild')
+    at Game.addGoldButton (game.js:464:24)
+    at Game.init (game.js:43:14)
+    at new Game (game.js:35:14)
+    at game.js:470:5
+
+
+same error
+
+losing too much gold from dragon attack, should only be max of 200 lost but gettinbg negative
+
+game.js:85 Error loading sound: 
+
+game.js:85 Sound file 'denied.mp3' not found. Game will continue without sound.
+
+no check again, they are in sounds/ dir something off and an extra dir was recursivly made in there
+
+
+
+
