@@ -136,6 +136,31 @@ game.js:85 Sound file 'denied.mp3' not found. Game will continue without sound.
 
 no check again, they are in sounds/ dir something off and an extra dir was recursivly made in there
 
+change the back of the card to make it more colorful. 
+
+use diff icon on back not game=pad
+
+great get rid of red question mark text shown on back of cards
+
+make the space between cards lot smaller use most the space
+
+the cards are resizing when they are flipped and strecthing, keep consistent square during that
+
+nope, still stretch during transition and now disappear when flipped
+
+high of card is changing when flipped, should stay square!
+
+good, can you make the emojis on back scale to full full size of card?
+
+needs to scale diff on phone and other screen sizes, good on desktop now, but too big on mobil, was good mobil before
+
+add a new type of troop to purchase. a pesant. they have 0 attack power, but every 5 seconds they produce 1 gold each , add a fun little animation of grain being swaned each time
+
+not able to buy it, not showing up. also troops now shows : Troops: [object Object],[object Object],[object Object],[object Object]0 ⚔️; and battelfield shows bunch diff text , should still only be name and icon
+
+not able to buy it, not showing up. also troops now shows : Troops: [object Object],[object Object],[object Object],[object Object]0 ⚔️; and battelfield shows bunch diff text , should still only be name and icon
+
+even softer, also i dont want any scrolling, and fix stylings back they were nivcer before. and add back in archer
 
 
 

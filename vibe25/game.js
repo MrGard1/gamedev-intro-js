@@ -20,6 +20,7 @@ class Game {
         this.fireCount = 0;
         this.dragonAttackActive = false;
         this.dragonAttackTimer = null;
+        this.lastEnergy = 10; // Track last energy value for threshold crossing
         
         // Define tile values and their corresponding emojis
         this.tileValues = [
@@ -106,6 +107,17 @@ class Game {
     }
 
     setupTroops() {
+        this.troops = [
+            { name: '👨‍🌾 Peasant', cost: 5, attack: 0, isProducer: true },
+            { name: '⛏️ Miner', cost: 20, attack: 0, isMiner: true },
+            { name: '🏹 Archer', cost: 50, attack: 1 },
+            { name: '⚔️ Warrior', cost: 100, attack: 1 },
+            { name: '🏹 Knight', cost: 200, attack: 2 },
+            { name: '🐉 Dragon', cost: 500, attack: 5 }
+        ];
+        this.battlefield = [];
+        this.producers = [];
+        this.miners = [];
         this.updateTroopList();
     }
 
@@ -113,14 +125,27 @@ class Game {
         const troopList = document.getElementById('troop-list');
         troopList.innerHTML = '';
         
-        this.availableTroops.forEach(troop => {
+        this.troops.forEach(troop => {
             const card = document.createElement('div');
             card.className = 'troop-card';
+            const isDisabled = this.energy < troop.cost;
+            if (isDisabled) {
+                card.classList.add('disabled');
+            }
+            
+            // Extract emoji from troop name
+            const emoji = troop.name.split(' ')[0];
+            
             card.innerHTML = `
-                <div>${troop.name}</div>
-                <div>Cost: ${troop.cost}</div>
+                <div class="troop-content">
+                    <div class="troop-name">${emoji}</div>
+                    <div class="troop-cost">${troop.cost} 💰</div>
+                </div>
             `;
-            card.dataset.troopId = troop.id;
+            
+            if (!isDisabled) {
+                card.addEventListener('click', () => this.addTroopToBattlefield(troop));
+            }
             troopList.appendChild(card);
         });
     }
@@ -201,7 +226,6 @@ class Game {
                 // Regular match - add energy
                 const points = values[0] * 10 * this.comboMultiplier;
                 this.energy += points;
-                this.troops += Math.floor(points / 50); // Gain troops based on points
 
                 // Play the appropriate sound based on the match value
                 switch(values[0]) {
@@ -298,34 +322,151 @@ class Game {
         // Count troops by type
         const troopCounts = {};
         this.battlefield.forEach(troop => {
-            if (!troopCounts[troop.id]) {
-                troopCounts[troop.id] = {
+            const key = troop.name;
+            if (!troopCounts[key]) {
+                troopCounts[key] = {
                     count: 0,
-                    troop: troop
+                    troops: []
                 };
             }
-            troopCounts[troop.id].count++;
+            troopCounts[key].count++;
+            troopCounts[key].troops.push(troop);
         });
         
         // Display combined troops
-        Object.values(troopCounts).forEach(({ troop, count }) => {
+        Object.values(troopCounts).forEach(({ troops, count }) => {
             const card = document.createElement('div');
             card.className = 'troop-card';
-            card.innerHTML = `
-                <div>${troop.emoji} ${troop.name} ×${count}</div>
-            `;
+            // Store all troop IDs in a data attribute
+            card.setAttribute('data-troop-ids', troops.map(t => t.id).join(','));
+            
+            if (troops[0].isMiner && troops[0].cooldown) {
+                card.classList.add('miner-cooldown');
+                card.innerHTML = `
+                    <div class="troop-content">
+                        <span class="troop-name">${troops[0].name} ×${count}</span>
+                        <span class="cooldown-timer">⏳ ${Math.ceil(troops[0].cooldown)}s</span>
+                    </div>
+                `;
+            } else {
+                card.innerHTML = `
+                    <div class="troop-content">
+                        <span class="troop-name">${troops[0].name} ×${count}</span>
+                    </div>
+                `;
+                if (troops[0].isMiner) {
+                    card.addEventListener('click', () => this.mineGold(troops[0]));
+                } else if (troops[0].name.includes('🐉')) {
+                    card.addEventListener('click', () => this.showDragonFireball(troops[0]));
+                }
+            }
             battlefield.appendChild(card);
         });
     }
 
+    mineGold(miner) {
+        if (miner.cooldown) return;
+        
+        // Calculate cooldown based on number of miners
+        const minerCount = this.battlefield.filter(t => t.isMiner).length;
+        const baseCooldown = 25;
+        const cooldownReduction = Math.min(minerCount * 2, 15); // 2s reduction per miner, max 15s reduction
+        const finalCooldown = baseCooldown - cooldownReduction;
+        
+        // Calculate bonus gold based on number of miners
+        const bonusGold = Math.floor(minerCount / 10) * 50; // Extra 50 gold for every 10 miners
+        const totalGold = 50 + bonusGold;
+        
+        // Add gold
+        this.energy += totalGold;
+        this.updateUI();
+        this.playSound('gold');
+        
+        // Show pickaxe animation
+        const battlefield = document.getElementById('battlefield');
+        const cards = battlefield.querySelectorAll('.troop-card');
+        for (const card of cards) {
+            const troopIds = card.getAttribute('data-troop-ids').split(',').map(id => parseFloat(id));
+            if (troopIds.includes(miner.id)) {
+                const pickaxe = document.createElement('div');
+                pickaxe.className = 'miner-animation';
+                pickaxe.innerHTML = '⛏️';
+                document.body.appendChild(pickaxe);
+                
+                // Position the animation relative to the card
+                const cardRect = card.getBoundingClientRect();
+                const cardCenterX = cardRect.left + cardRect.width / 2;
+                const cardCenterY = cardRect.top + cardRect.height / 2;
+                pickaxe.style.left = `${cardCenterX}px`;
+                pickaxe.style.top = `${cardCenterY}px`;
+                
+                // Remove the animation element after it completes
+                setTimeout(() => {
+                    if (pickaxe.parentNode) {
+                        pickaxe.remove();
+                    }
+                }, 1000); // Match the animation duration
+                break;
+            }
+        }
+        
+        // Set cooldown
+        miner.cooldown = finalCooldown;
+        this.miners.push(miner);
+        
+        // Start cooldown timer
+        const interval = setInterval(() => {
+            if (miner.cooldown > 0) {
+                miner.cooldown--;
+                this.updateBattlefield();
+            } else {
+                clearInterval(interval);
+                this.miners = this.miners.filter(m => m.id !== miner.id);
+                this.updateBattlefield();
+            }
+        }, 1000);
+    }
+
+    showDragonFireball(dragon) {
+        const battlefield = document.getElementById('battlefield');
+        const cards = battlefield.querySelectorAll('.troop-card');
+        for (const card of cards) {
+            const troopIds = card.getAttribute('data-troop-ids').split(',').map(id => parseFloat(id));
+            if (troopIds.includes(dragon.id)) {
+                const fireball = document.createElement('div');
+                fireball.className = 'dragon-fireball';
+                fireball.innerHTML = '🔥';
+                document.body.appendChild(fireball);
+                
+                // Position the animation relative to the card
+                const cardRect = card.getBoundingClientRect();
+                const cardCenterX = cardRect.left + cardRect.width / 2;
+                const cardCenterY = cardRect.top + cardRect.height / 2;
+                fireball.style.left = `${cardCenterX}px`;
+                fireball.style.top = `${cardCenterY}px`;
+                
+                // Remove the animation element after it completes
+                setTimeout(() => {
+                    if (fireball.parentNode) {
+                        fireball.remove();
+                    }
+                }, 1000); // Match the animation duration
+                break;
+            }
+        }
+    }
+
     updateUI() {
         document.getElementById('energy').textContent = this.energy;
-        document.getElementById('troops').textContent = this.troops;
+        document.getElementById('troops').textContent = this.battlefield.length;
         this.checkDragonAttack(); // Check for dragon attack after updating gold
+        this.lastEnergy = this.energy; // Update last energy value
+        this.updateTroopList(); // Update troop list to enable/disable buttons based on energy
     }
 
     checkDragonAttack() {
-        if (this.energy > 200 && !this.dragonAttackActive) {
+        // Only trigger if we're crossing the 200 threshold from below
+        if (this.energy > 200 && this.lastEnergy <= 200 && !this.dragonAttackActive) {
             this.startDragonAttack();
         }
     }
@@ -472,6 +613,78 @@ class Game {
             setTimeout(() => goldButton.classList.remove('clicked'), 200);
         });
         gameHeader.appendChild(goldButton);
+    }
+
+    addTroopToBattlefield(troop) {
+        if (this.energy >= troop.cost) {
+            this.energy -= troop.cost;
+            const newTroop = { ...troop, id: Date.now() + Math.random() }; // Ensure unique IDs
+            this.battlefield.push(newTroop);
+            
+            // If it's a peasant, add to producers and start gold generation
+            if (troop.isProducer) {
+                this.producers.push(newTroop);
+                this.startGoldProduction(newTroop);
+            }
+            
+            this.updateUI();
+            this.updateBattlefield();
+            this.playSound('troop');
+        } else {
+            this.playSound('denied');
+            document.getElementById('energy').classList.add('shake');
+            setTimeout(() => document.getElementById('energy').classList.remove('shake'), 500);
+        }
+    }
+
+    startGoldProduction(peasant) {
+        const interval = setInterval(() => {
+            if (this.battlefield.find(t => t.id === peasant.id)) {
+                this.energy += 1;
+                this.updateUI();
+                // Only play sound for the first peasant's harvest
+                if (peasant.id === this.producers[0]?.id && this.sounds.gold) {
+                    const goldSound = this.sounds.gold.cloneNode();
+                    goldSound.volume = 0.05; // Much softer volume for peasant gold
+                    goldSound.play().catch(error => console.warn('Could not play gold sound:', error));
+                }
+                // Show animation for every peasant
+                this.showGrainAnimation(peasant);
+            } else {
+                clearInterval(interval);
+                this.producers = this.producers.filter(p => p.id !== peasant.id);
+            }
+        }, 5000); // Every 5 seconds
+    }
+
+    showGrainAnimation(peasant) {
+        const battlefield = document.getElementById('battlefield');
+        // Find the card that contains this peasant's ID
+        const cards = battlefield.querySelectorAll('.troop-card');
+        for (const card of cards) {
+            const troopIds = card.getAttribute('data-troop-ids').split(',').map(id => parseFloat(id));
+            if (troopIds.includes(peasant.id)) {
+                const grain = document.createElement('div');
+                grain.className = 'grain-animation';
+                grain.innerHTML = '🌽';
+                document.body.appendChild(grain);
+                
+                // Position the animation relative to the card
+                const cardRect = card.getBoundingClientRect();
+                const cardCenterX = cardRect.left + cardRect.width / 2;
+                const cardCenterY = cardRect.top + cardRect.height / 2;
+                grain.style.left = `${cardCenterX}px`;
+                grain.style.top = `${cardCenterY}px`;
+                
+                // Remove the animation element after it completes
+                setTimeout(() => {
+                    if (grain.parentNode) {
+                        grain.remove();
+                    }
+                }, 1500); // Match the animation duration
+                return;
+            }
+        }
     }
 }
 
